@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Track Your Complaint | Neer Safai</title>
+  <meta name="description" content="Enter your Neer Safai complaint ID to view a live resolution timeline and the latest officer remarks." />
+  <link rel="icon" type="image/png" href="images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { ink: "#0b1320", ink2: "#0f1b2d", aqua: "#00f0ff", saffron: "#ff9933" }, fontFamily: { sans: ["Inter", "sans-serif"], display: ["Space Grotesk", "sans-serif"] } } } };
+  </script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="antialiased">
+  <div id="navbar-placeholder"></div>
+
+  <main class="page-shell">
+    <section class="relative overflow-hidden border-b border-white/10">
+      <div class="absolute inset-0 -z-10 bg-gradient-to-b from-[#0d1e30] via-[#0b1320] to-transparent"></div>
+      <div class="container-x py-16 sm:py-20">
+        <nav class="text-xs text-slate-500"><a href="index.html" class="hover:text-[#00f0ff]">Home</a> <span class="mx-2">/</span> <span class="text-slate-300">Track Complaint</span></nav>
+        <h1 data-aos="fade-up" class="mt-4 max-w-3xl font-display text-4xl font-bold text-white sm:text-5xl">Follow your complaint, <span class="text-gradient">step by step.</span></h1>
+        <p data-aos="fade-up" data-aos-delay="100" class="mt-5 max-w-2xl leading-relaxed text-slate-400">Enter the complaint ID you received while filing the grievance to view its live resolution timeline.</p>
+      </div>
+    </section>
+
+    <section class="section-pad">
+      <div class="container-x">
+        <div class="mx-auto max-w-2xl" data-aos="fade-up">
+          <form id="track-form" class="glass p-5 sm:p-6" novalidate>
+            <label class="field-label" for="track-id">Complaint ID</label>
+            <div class="flex flex-col gap-2 sm:flex-row">
+              <div class="relative flex-1">
+                <i class="fa-solid fa-hashtag absolute left-4 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
+                <input id="track-id" type="text" class="input !pl-10 uppercase" placeholder="NS-2026-1024" data-error="err-track" autocomplete="off" />
+              </div>
+              <button type="submit" class="btn btn-aqua sm:!px-7"><i class="fa-solid fa-magnifying-glass-location"></i> Track</button>
+            </div>
+            <span class="field-error" id="err-track"></span>
+            <div class="mt-4 flex flex-wrap items-center gap-2">
+              <span class="text-xs text-slate-500">Recent:</span>
+              <div id="recent-ids" class="flex flex-wrap gap-2"></div>
+            </div>
+          </form>
+        </div>
+
+        <div id="track-result" class="mx-auto mt-8 max-w-3xl"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-placeholder"></div>
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("track-form");
+      const input = document.getElementById("track-id");
+      const result = document.getElementById("track-result");
+      const recent = document.getElementById("recent-ids");
+
+      function renderRecent() {
+        const list = NS.complaints.local().slice(0, 5);
+        if (!list.length) {
+          recent.innerHTML = '<span class="text-xs text-slate-500">No complaints filed yet.</span>';
+          return;
+        }
+        recent.innerHTML = list.map((c) => `<button type="button" data-id="${c.complaintId}" class="badge badge-review hover:brightness-125 transition">${c.complaintId}</button>`).join("");
+        recent.querySelectorAll("[data-id]").forEach((b) => b.addEventListener("click", () => {
+          input.value = b.getAttribute("data-id");
+          form.requestSubmit();
+        }));
+      }
+
+      function emptyState(title, text, icon = "fa-magnifying-glass") {
+        result.innerHTML = `
+          <div class="glass p-10 text-center">
+            <span class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-[#00f0ff]/10 text-2xl text-[#00f0ff]"><i class="fa-solid ${icon}"></i></span>
+            <h2 class="mt-5 font-display text-xl font-semibold text-white">${NS.esc(title)}</h2>
+            <p class="mx-auto mt-2 max-w-md text-sm text-slate-400">${NS.esc(text)}</p>
+            <a href="report.html" class="btn btn-aqua mt-6"><i class="fa-solid fa-plus"></i> File a complaint</a>
+          </div>`;
+        result.setAttribute("data-aos", "fade-up");
+      }
+
+      function stageState(stageIndex, status) {
+        const order = { "Pending": 0, "Under Review": 1, "Resolved": 3, "Rejected": 1 };
+        const active = order[status] != null ? order[status] : 0;
+        if (status === "Resolved") return "done";
+        if (status === "Rejected") return stageIndex <= 1 ? (stageIndex < 1 ? "done" : "current") : "muted";
+        if (stageIndex < active) return "done";
+        if (stageIndex === active) return "current";
+        return "muted";
+      }
+
+      function timeline(c) {
+        const stages = [
+          { title: "Complaint Filed", desc: "Your grievance was received by the portal.", icon: "fa-file-circle-plus" },
+          { title: "Under Review", desc: "Assigned to the district water officer for verification.", icon: "fa-magnifying-glass" },
+          { title: "Field Inspection", desc: "A field team visits and assesses the reported issue.", icon: "fa-helmet-safety" },
+          { title: "Resolved", desc: "Corrective action completed and complaint closed.", icon: "fa-circle-check" }
+        ];
+        let html = stages.map((s, i) => {
+          const state_ = stageState(i, c.status);
+          return `
+            <div class="tl-item ${state_ === "done" ? "done" : state_ === "current" ? "current" : ""}">
+              <span class="tl-dot"><i class="fa-solid ${s.icon}"></i></span>
+              <div class="${state_ === "muted" ? "opacity-50" : ""}">
+                <p class="font-medium ${state_ === "muted" ? "text-slate-400" : "text-white"}">${s.title}</p>
+                <p class="mt-1 text-sm text-slate-400">${s.desc}</p>
+              </div>
+            </div>`;
+        }).join("");
+
+        if (c.status === "Rejected") {
+          html += `
+            <div class="tl-item current">
+              <span class="tl-dot !border-red-400 !text-red-400"><i class="fa-solid fa-circle-xmark"></i></span>
+              <div>
+                <p class="font-medium text-red-300">Rejected</p>
+                <p class="mt-1 text-sm text-slate-400">${NS.esc(c.remarks || "This complaint could not be verified or falls outside the department's scope.")}</p>
+              </div>
+            </div>`;
+        }
+        return html;
+      }
+
+      function renderComplaint(c) {
+        result.innerHTML = `
+          <div class="glass p-7 sm:p-9" data-aos="fade-up">
+            <div class="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Complaint</p>
+                <h2 class="mt-1 font-display text-2xl font-bold tracking-wide text-white">${NS.esc(c.complaintId)}</h2>
+                <p class="mt-1 text-sm text-slate-400">Filed on ${NS.formatDateTime(c.createdAt)}</p>
+              </div>
+              ${NS.statusBadge(c.status)}
+            </div>
+
+            <div class="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div class="rounded-xl border border-white/10 bg-white/[0.03] p-4"><p class="text-[11px] uppercase tracking-wider text-slate-500">Citizen</p><p class="mt-1 truncate text-sm font-medium text-white">${NS.esc(c.name)}</p></div>
+              <div class="rounded-xl border border-white/10 bg-white/[0.03] p-4"><p class="text-[11px] uppercase tracking-wider text-slate-500">Location</p><p class="mt-1 truncate text-sm font-medium text-white">${NS.esc(c.district)}, ${NS.esc(c.state)}</p></div>
+              <div class="rounded-xl border border-white/10 bg-white/[0.03] p-4"><p class="text-[11px] uppercase tracking-wider text-slate-500">Issue Type</p><p class="mt-1 truncate text-sm font-medium text-white">${NS.esc(c.issueType)}</p></div>
+              <div class="rounded-xl border border-white/10 bg-white/[0.03] p-4"><p class="text-[11px] uppercase tracking-wider text-slate-500">Last Updated</p><p class="mt-1 truncate text-sm font-medium text-white">${NS.formatDate(c.updatedAt)}</p></div>
+            </div>
+
+            <div class="mt-5 rounded-xl border border-white/10 bg-white/[0.03] p-4">
+              <p class="text-[11px] uppercase tracking-wider text-slate-500">Description</p>
+              <p class="mt-1 text-sm leading-relaxed text-slate-300">${NS.esc(c.description)}</p>
+            </div>
+
+            <div class="mt-8 grid gap-8 lg:grid-cols-[1fr_0.85fr]">
+              <div>
+                <h3 class="mb-5 font-display text-lg font-semibold text-white">Resolution timeline</h3>
+                <div class="timeline">${timeline(c)}</div>
+              </div>
+              <div class="space-y-4">
+                <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+                  <p class="text-xs uppercase tracking-[0.16em] text-slate-500">Officer remarks</p>
+                  <p class="mt-2 text-sm leading-relaxed text-slate-300">${NS.esc(c.remarks || "No remarks yet. The assigned officer will update this section after review.")}</p>
+                </div>
+                <div class="rounded-2xl border border-[#00f0ff]/20 bg-[#00f0ff]/5 p-5">
+                  <p class="flex items-center gap-2 text-sm font-medium text-white"><i class="fa-solid fa-bell text-[#00f0ff]"></i> Need to add information?</p>
+                  <p class="mt-2 text-sm text-slate-400">Call the helpline and quote your complaint ID for any urgent updates.</p>
+                  <a href="tel:1800119999" class="btn btn-ghost mt-4 w-full"><i class="fa-solid fa-phone-volume"></i> 1800-11-9999</a>
+                </div>
+                <button type="button" id="copy-track" data-id="${NS.esc(c.complaintId)}" class="btn btn-ghost w-full"><i class="fa-regular fa-copy"></i> Copy complaint ID</button>
+              </div>
+            </div>
+          </div>`;
+
+        const copyBtn = document.getElementById("copy-track");
+        if (copyBtn) copyBtn.addEventListener("click", async () => {
+          try { await navigator.clipboard.writeText(copyBtn.getAttribute("data-id")); NS.toast("Complaint ID copied.", "success"); }
+          catch (e) { NS.toast("Copy failed.", "error"); }
+        });
+      }
+
+      async function search(id) {
+        NS.ui.showRipple();
+        const label = document.querySelector("[data-ripple-text]");
+        if (label) label.textContent = "Fetching complaint status…";
+        setTimeout(async () => {
+          try {
+            const c = await NS.complaints.get(id);
+            if (c) renderComplaint(c);
+            else emptyState("Complaint not found", `We could not find a complaint with ID ${id}. Please check the ID and try again.`, "fa-circle-exclamation");
+          } catch (e) {
+            emptyState("Something went wrong", "Unable to fetch the complaint right now. Please retry in a moment.", "fa-triangle-exclamation");
+          } finally {
+            NS.ui.hideRipple();
+          }
+        }, 1200);
+      }
+
+      input.addEventListener("input", () => {
+        input.value = input.value.toUpperCase().replace(/[^A-Z0-9-]/g, "");
+        NS.markField(input, NS.validate.required(input.value), "Please enter a complaint ID.");
+      });
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (!NS.markField(input, NS.validate.required(input.value), "Please enter a complaint ID.")) {
+          NS.toast("Please enter a complaint ID.", "error");
+          return;
+        }
+        search(input.value.trim().toUpperCase());
+      });
+
+      renderRecent();
+      emptyState("Track a complaint", "Enter your complaint ID above to see where things stand right now.", "fa-magnifying-glass-location");
+
+      const params = new URLSearchParams(location.search);
+      const prefill = params.get("id");
+      if (prefill) {
+        input.value = prefill.toUpperCase();
+        search(prefill.toUpperCase());
+      }
+    });
+  </script>
+</body>
+</html>

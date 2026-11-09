@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Citizen Feedback | Neer Safai</title>
+  <meta name="description" content="Share your experience with the Neer Safai portal and help us improve public water services." />
+  <link rel="icon" type="image/png" href="images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { ink: "#0b1320", ink2: "#0f1b2d", aqua: "#00f0ff", saffron: "#ff9933" }, fontFamily: { sans: ["Inter", "sans-serif"], display: ["Space Grotesk", "sans-serif"] } } } };
+  </script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="antialiased">
+  <div id="navbar-placeholder"></div>
+
+  <main class="page-shell">
+    <section class="relative overflow-hidden border-b border-white/10">
+      <div class="absolute inset-0 -z-10 bg-gradient-to-b from-[#0d1e30] via-[#0b1320] to-transparent"></div>
+      <div class="container-x py-16 sm:py-20">
+        <nav class="text-xs text-slate-500"><a href="index.html" class="hover:text-[#00f0ff]">Home</a> <span class="mx-2">/</span> <span class="text-slate-300">Feedback</span></nav>
+        <h1 data-aos="fade-up" class="mt-4 max-w-3xl font-display text-4xl font-bold text-white sm:text-5xl">Your voice shapes <span class="text-gradient">better services.</span></h1>
+        <p data-aos="fade-up" data-aos-delay="100" class="mt-5 max-w-2xl leading-relaxed text-slate-400">Tell us what worked and what did not. Every response helps improve the portal for millions of citizens.</p>
+      </div>
+    </section>
+
+    <section class="section-pad">
+      <div class="container-x mx-auto max-w-3xl">
+        <div data-aos="fade-up" class="glass p-7 sm:p-10">
+          <form id="feedback-form" class="space-y-6" novalidate>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <div>
+                <label class="field-label" for="f-name">Name (optional)</label>
+                <input id="f-name" type="text" class="input" placeholder="Your name" autocomplete="name" />
+              </div>
+              <div>
+                <label class="field-label" for="f-email">Email (optional)</label>
+                <input id="f-email" type="email" class="input" placeholder="you@example.com" data-error="err-f-email" autocomplete="email" />
+                <span class="field-error" id="err-f-email"></span>
+              </div>
+            </div>
+
+            <div>
+              <label class="field-label" for="f-role">I am a</label>
+              <select id="f-role" class="select">
+                <option value="Citizen">Citizen</option>
+                <option value="Student">Student</option>
+                <option value="Government Official">Government Official</option>
+                <option value="Researcher">Researcher</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="field-label">Overall experience</label>
+              <div id="stars" class="flex gap-2" role="radiogroup" aria-label="Rating"></div>
+              <p id="rating-label" class="mt-2 text-sm text-slate-400">Tap a star to rate</p>
+            </div>
+
+            <div>
+              <label class="field-label" for="f-message">Your feedback <span class="text-[#ff9933]">*</span></label>
+              <textarea id="f-message" class="textarea" placeholder="What did you like? What should we improve?" data-error="err-f-message"></textarea>
+              <span class="field-error" id="err-f-message"></span>
+            </div>
+
+            <label class="flex items-start gap-3 text-sm text-slate-400">
+              <input id="f-consent" type="checkbox" class="mt-1 h-4 w-4 rounded border-white/20 bg-transparent accent-[#00f0ff]" checked />
+              <span>You may use this feedback to improve the portal. (No personal data is shared publicly.)</span>
+            </label>
+
+            <button type="submit" class="btn btn-aqua"><i class="fa-solid fa-paper-plane"></i> Submit feedback</button>
+          </form>
+
+          <div id="feedback-success" class="hidden py-10 text-center">
+            <span class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-emerald-400/10 text-3xl text-emerald-400"><i class="fa-solid fa-heart"></i></span>
+            <h2 class="mt-5 font-display text-2xl font-bold text-white">Thank you for your feedback!</h2>
+            <p class="mx-auto mt-2 max-w-md text-sm text-slate-400">Your response has been recorded. It will help us make Neer Safai more useful for everyone.</p>
+            <div class="mt-6 flex flex-wrap justify-center gap-3">
+              <a href="index.html" class="btn btn-aqua"><i class="fa-solid fa-house"></i> Back home</a>
+              <button type="button" id="again" class="btn btn-ghost"><i class="fa-solid fa-rotate-right"></i> Give more feedback</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-placeholder"></div>
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("feedback-form");
+      const starsWrap = document.getElementById("stars");
+      const ratingLabel = document.getElementById("rating-label");
+      const success = document.getElementById("feedback-success");
+      let rating = 0;
+
+      const labels = { 1: "Very poor", 2: "Poor", 3: "Average", 4: "Good", 5: "Excellent" };
+      starsWrap.innerHTML = [1, 2, 3, 4, 5].map((n) => `
+        <button type="button" data-star="${n}" class="text-2xl text-slate-600 transition hover:scale-110" aria-label="${n} star">
+          <i class="fa-solid fa-star"></i>
+        </button>`).join("");
+
+      starsWrap.querySelectorAll("[data-star]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          rating = Number(btn.getAttribute("data-star"));
+          starsWrap.querySelectorAll("[data-star]").forEach((b) => {
+            const on = Number(b.getAttribute("data-star")) <= rating;
+            b.classList.toggle("text-[#ff9933]", on);
+            b.classList.toggle("text-slate-600", !on);
+          });
+          ratingLabel.textContent = `${rating} / 5 — ${labels[rating]}`;
+        });
+        btn.addEventListener("mouseenter", () => {
+          const n = Number(btn.getAttribute("data-star"));
+          starsWrap.querySelectorAll("[data-star]").forEach((b) => {
+            const on = Number(b.getAttribute("data-star")) <= n;
+            b.classList.toggle("text-[#ff9933]/70", on);
+          });
+        });
+        btn.addEventListener("mouseleave", () => {
+          starsWrap.querySelectorAll("[data-star]").forEach((b) => {
+            b.classList.toggle("text-[#ff9933]/70", false);
+          });
+        });
+      });
+
+      const message = document.getElementById("f-message");
+      const email = document.getElementById("f-email");
+      message.addEventListener("input", () => NS.markField(message, NS.validate.minLen(message.value, 10), "Please write at least 10 characters."));
+      email.addEventListener("input", () => {
+        if (!email.value.trim()) { NS.markField(email, true, ""); return; }
+        NS.markField(email, NS.validate.email(email.value), "Enter a valid email address.");
+      });
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const msgOk = NS.markField(message, NS.validate.minLen(message.value, 10), "Please write at least 10 characters.");
+        const emailOk = !email.value.trim() || NS.markField(email, NS.validate.email(email.value), "Enter a valid email address.");
+        if (!msgOk || !emailOk) {
+          NS.toast("Please complete the required fields.", "error");
+          return;
+        }
+        NS.feedback({
+          type: "feedback",
+          name: document.getElementById("f-name").value.trim(),
+          email: email.value.trim(),
+          role: document.getElementById("f-role").value,
+          rating: rating || null,
+          message: message.value.trim()
+        });
+        form.classList.add("hidden");
+        success.classList.remove("hidden");
+        NS.toast("Feedback submitted. Thank you!", "success");
+      });
+
+      document.getElementById("again").addEventListener("click", () => {
+        form.reset();
+        rating = 0;
+        ratingLabel.textContent = "Tap a star to rate";
+        starsWrap.querySelectorAll("[data-star]").forEach((b) => { b.classList.remove("text-[#ff9933]"); b.classList.add("text-slate-600"); });
+        form.querySelectorAll(".is-valid, .is-invalid").forEach((el) => el.classList.remove("is-valid", "is-invalid"));
+        success.classList.add("hidden");
+        form.classList.remove("hidden");
+      });
+    });
+  </script>
+</body>
+</html>

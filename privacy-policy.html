@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy | Neer Safai</title>
+  <meta name="description" content="How Neer Safai collects, uses, stores and protects citizen information." />
+  <link rel="icon" type="image/png" href="images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { ink: "#0b1320", ink2: "#0f1b2d", aqua: "#00f0ff", saffron: "#ff9933" }, fontFamily: { sans: ["Inter", "sans-serif"], display: ["Space Grotesk", "sans-serif"] } } } };
+  </script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="antialiased">
+  <div id="navbar-placeholder"></div>
+
+  <main class="page-shell">
+    <section class="relative overflow-hidden border-b border-white/10">
+      <div class="absolute inset-0 -z-10 bg-gradient-to-b from-[#0d1e30] via-[#0b1320] to-transparent"></div>
+      <div class="container-x py-16 sm:py-20">
+        <nav class="text-xs text-slate-500"><a href="index.html" class="hover:text-[#00f0ff]">Home</a> <span class="mx-2">/</span> <span class="text-slate-300">Privacy Policy</span></nav>
+        <h1 data-aos="fade-up" class="mt-4 max-w-3xl font-display text-4xl font-bold text-white sm:text-5xl">Privacy <span class="text-gradient">Policy.</span></h1>
+        <p data-aos="fade-up" data-aos-delay="100" class="mt-4 text-sm text-slate-400">Effective date: 9 November 2026 · Version 1.0</p>
+      </div>
+    </section>
+
+    <section class="section-pad">
+      <div class="container-x grid gap-8 lg:grid-cols-[0.32fr_1fr]">
+        <aside class="glass h-fit p-6 lg:sticky lg:top-28">
+          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">On this page</p>
+          <nav class="mt-4 space-y-2 text-sm">
+            <a class="footer-link block" href="#collect">Information we collect</a>
+            <a class="footer-link block" href="#use">How we use it</a>
+            <a class="footer-link block" href="#storage">Data storage</a>
+            <a class="footer-link block" href="#sharing">Sharing</a>
+            <a class="footer-link block" href="#security">Security</a>
+            <a class="footer-link block" href="#rights">Your rights</a>
+            <a class="footer-link block" href="#contact">Grievance contact</a>
+          </nav>
+        </aside>
+
+        <div class="glass p-7 sm:p-10">
+          <p class="text-slate-400">Neer Safai ("the Portal") is a demonstration civic-tech application. This policy explains what information is collected when you use the Portal and how it is handled. In a production deployment, this policy would be issued by the operating department under applicable Indian law.</p>
+
+          <h2 id="collect" class="mt-9 font-display text-2xl font-bold text-white">1. Information we collect</h2>
+          <ul class="mt-3 space-y-2 text-slate-400">
+            <li class="flex gap-2"><i class="fa-solid fa-circle text-[5px] mt-2 text-[#00f0ff]"></i> <span><strong class="text-slate-200">Identity and contact data:</strong> name and 10-digit mobile number submitted with a complaint.</span></li>
+            <li class="flex gap-2"><i class="fa-solid fa-circle text-[5px] mt-2 text-[#00f0ff]"></i> <span><strong class="text-slate-200">Location data:</strong> state, district or city, and the pincode entered in the quality checker.</span></li>
+            <li class="flex gap-2"><i class="fa-solid fa-circle text-[5px] mt-2 text-[#00f0ff]"></i> <span><strong class="text-slate-200">Complaint content:</strong> issue type, description and, optionally, a photo filename.</span></li>
+            <li class="flex gap-2"><i class="fa-solid fa-circle text-[5px] mt-2 text-[#00f0ff]"></i> <span><strong class="text-slate-200">Feedback data:</strong> optional name, email, role, rating and message.</span></li>
+          </ul>
+
+          <h2 id="use" class="mt-9 font-display text-2xl font-bold text-white">2. How we use information</h2>
+          <p class="mt-3 text-slate-400">Information is used solely to register, route, track and resolve water sanitation grievances, and to generate aggregated analytics for service improvement. We do not use personal data for advertising or profiling.</p>
+
+          <h2 id="storage" class="mt-9 font-display text-2xl font-bold text-white">3. Data storage</h2>
+          <p class="mt-3 text-slate-400">In this demo build, complaints and feedback are stored in your browser's <code class="rounded bg-black/30 px-1.5 py-0.5 text-[#00f0ff]">localStorage</code>. If the optional Python Flask backend is running, complaints are additionally stored in a local SQLite database (<code class="rounded bg-black/30 px-1.5 py-0.5 text-[#00f0ff]">database.db</code>). No data is transmitted to third-party servers.</p>
+
+          <h2 id="sharing" class="mt-9 font-display text-2xl font-bold text-white">4. Sharing of information</h2>
+          <p class="mt-3 text-slate-400">Complaint details are visible to authorised officials through the admin dashboard for the purpose of resolution. We do not sell or rent personal data. Aggregated, non-identifiable statistics may be published for public transparency.</p>
+
+          <h2 id="security" class="mt-9 font-display text-2xl font-bold text-white">5. Security</h2>
+          <p class="mt-3 text-slate-400">Access to the admin dashboard requires a session stored in localStorage. Production deployments must use HTTPS, hashed credentials, server-side sessions, rate limiting and audit logging. This demo is not suitable for storing real sensitive personal data.</p>
+
+          <h2 id="rights" class="mt-9 font-display text-2xl font-bold text-white">6. Your rights</h2>
+          <p class="mt-3 text-slate-400">You may request access, correction or deletion of your complaint data by contacting the grievance officer. In the demo build, you can clear all locally stored data at any time by clearing your browser storage for this site.</p>
+
+          <h2 id="contact" class="mt-9 font-display text-2xl font-bold text-white">7. Grievance contact</h2>
+          <div class="mt-3 rounded-2xl border border-white/10 bg-white/[0.03] p-5 text-sm text-slate-400">
+            <p><strong class="text-slate-200">Grievance Officer:</strong> Nodal Public Information Officer</p>
+            <p class="mt-1"><strong class="text-slate-200">Email:</strong> privacy@neersafai.gov.in</p>
+            <p class="mt-1"><strong class="text-slate-200">Phone:</strong> 1800-11-9999</p>
+            <p class="mt-1"><strong class="text-slate-200">Address:</strong> Ministry of Jal Shakti, Shram Shakti Bhawan, Rafi Marg, New Delhi – 110001</p>
+          </div>
+
+          <h2 class="mt-9 font-display text-2xl font-bold text-white">8. Changes to this policy</h2>
+          <p class="mt-3 text-slate-400">We may update this policy to reflect legal or technical changes. The effective date at the top of this page will be revised accordingly.</p>
+
+          <div class="mt-9 rounded-2xl border border-[#ff9933]/20 bg-[#ff9933]/5 p-5 text-sm text-slate-300">
+            <i class="fa-solid fa-triangle-exclamation mr-2 text-[#ff9933]"></i> This portal is an academic demonstration and is not an official Government of India website.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-placeholder"></div>
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

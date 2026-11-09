@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Water Quality Checker | Neer Safai</title>
+  <meta name="description" content="Enter your pincode to check TDS, pH, hardness and turbidity levels and get a safety verdict for your area." />
+  <link rel="icon" type="image/png" href="images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { ink: "#0b1320", ink2: "#0f1b2d", aqua: "#00f0ff", saffron: "#ff9933" }, fontFamily: { sans: ["Inter", "sans-serif"], display: ["Space Grotesk", "sans-serif"] } } } };
+  </script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="antialiased">
+  <div id="navbar-placeholder"></div>
+
+  <main class="page-shell">
+    <section class="relative overflow-hidden border-b border-white/10">
+      <div class="absolute inset-0 -z-10 bg-gradient-to-b from-[#0d1e30] via-[#0b1320] to-transparent"></div>
+      <div class="container-x py-16 sm:py-20">
+        <nav class="text-xs text-slate-500"><a href="index.html" class="hover:text-[#00f0ff]">Home</a> <span class="mx-2">/</span> <span class="text-slate-300">Water Quality</span></nav>
+        <h1 data-aos="fade-up" class="mt-4 max-w-3xl font-display text-4xl font-bold text-white sm:text-5xl">Know what is in your <span class="text-gradient">water.</span></h1>
+        <p data-aos="fade-up" data-aos-delay="100" class="mt-5 max-w-2xl leading-relaxed text-slate-400">Enter a 6-digit pincode to generate a quality report with TDS, pH, hardness and turbidity readings.</p>
+      </div>
+    </section>
+
+    <section class="section-pad">
+      <div class="container-x grid gap-8 lg:grid-cols-[0.95fr_1.25fr]">
+        <!-- Input -->
+        <div data-aos="fade-right">
+          <div class="glass p-7 sm:p-8">
+            <div class="flex items-center gap-3">
+              <span class="grid h-11 w-11 place-items-center rounded-xl bg-[#00f0ff]/10 text-[#00f0ff]"><i class="fa-solid fa-location-crosshairs"></i></span>
+              <div>
+                <h2 class="font-display text-xl font-semibold text-white">Check your area</h2>
+                <p class="text-xs text-slate-400">Demo data · BIS 10500 reference</p>
+              </div>
+            </div>
+
+            <form id="quality-form" class="mt-7" novalidate>
+              <label class="field-label" for="pin">Pincode</label>
+              <div class="flex gap-2">
+                <input id="pin" name="pincode" type="text" inputmode="numeric" maxlength="6" class="input" placeholder="e.g. 221001" data-error="err-pin" autocomplete="postal-code" />
+                <button type="submit" class="btn btn-aqua !px-5"><i class="fa-solid fa-flask"></i><span class="hidden sm:inline">Check</span></button>
+              </div>
+              <span class="field-error" id="err-pin"></span>
+              <p class="mt-2 text-xs text-slate-500">Try 221001, 400001, 560001 or 110001.</p>
+            </form>
+
+            <div class="mt-6 border-t border-white/10 pt-5">
+              <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Recent checks</p>
+              <div id="recent-checks" class="mt-3 flex flex-wrap gap-2"></div>
+            </div>
+          </div>
+
+          <div class="glass mt-5 p-6">
+            <h3 class="flex items-center gap-2 font-display text-lg font-semibold text-white"><i class="fa-solid fa-circle-info text-[#00f0ff]"></i> Reading guide</h3>
+            <ul class="mt-4 space-y-3 text-sm text-slate-400">
+              <li class="flex justify-between gap-3"><span>TDS (Total Dissolved Solids)</span><span class="text-slate-200">≤ 500 ppm</span></li>
+              <li class="flex justify-between gap-3"><span>pH</span><span class="text-slate-200">6.5 – 8.5</span></li>
+              <li class="flex justify-between gap-3"><span>Hardness (as CaCO₃)</span><span class="text-slate-200">≤ 300 mg/L</span></li>
+              <li class="flex justify-between gap-3"><span>Turbidity</span><span class="text-slate-200">≤ 5 NTU</span></li>
+            </ul>
+            <p class="mt-4 text-xs leading-relaxed text-slate-500">This is an academic demonstration. Real certification requires sampling by an accredited laboratory.</p>
+          </div>
+        </div>
+
+        <!-- Result -->
+        <div data-aos="fade-left">
+          <div id="quality-result" class="glass p-7 sm:p-9">
+            <div class="flex min-h-[280px] flex-col items-center justify-center gap-4 text-center">
+              <span class="grid h-16 w-16 place-items-center rounded-full bg-[#00f0ff]/10 text-2xl text-[#00f0ff]"><i class="fa-solid fa-droplet"></i></span>
+              <div>
+                <h2 class="font-display text-xl font-semibold text-white">Your water report will appear here</h2>
+                <p class="mt-2 max-w-sm text-sm text-slate-400">Enter a pincode and hit Check to generate TDS, pH, hardness and turbidity readings.</p>
+              </div>
+            </div>
+          </div>
+          <p class="mt-3 text-center text-xs text-slate-500" id="quality-source"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-placeholder"></div>
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("quality-form");
+      const input = document.getElementById("pin");
+      const result = document.getElementById("quality-result");
+      const source = document.getElementById("quality-source");
+      const recent = document.getElementById("recent-checks");
+      const HISTORY = "ns_quality_history";
+
+      function getHistory() {
+        try { return JSON.parse(localStorage.getItem(HISTORY) || "[]"); } catch (e) { return []; }
+      }
+      function renderRecent() {
+        const list = getHistory();
+        if (!list.length) {
+          recent.innerHTML = '<span class="text-xs text-slate-500">No checks yet.</span>';
+          return;
+        }
+        recent.innerHTML = list.map((p) => `
+          <button type="button" data-pin="${p}" class="badge badge-review hover:brightness-125 transition">${p}</button>`).join("");
+        recent.querySelectorAll("[data-pin]").forEach((btn) => {
+          btn.addEventListener("click", () => { input.value = btn.getAttribute("data-pin"); form.requestSubmit(); });
+        });
+      }
+
+      function metric(label, value, unit, percent, hint) {
+        return `
+          <div>
+            <div class="flex items-baseline justify-between">
+              <span class="text-sm text-slate-400">${label}</span>
+              <span class="font-display text-lg font-bold text-white">${value}<span class="ml-1 text-xs font-normal text-slate-500">${unit}</span></span>
+            </div>
+            <div class="bar-track mt-2"><div class="bar-fill" style="width:${Math.min(percent, 100)}%"></div></div>
+            <p class="mt-1.5 text-[11px] text-slate-500">${hint}</p>
+          </div>`;
+      }
+
+      function render(data) {
+        const safe = data.safe;
+        result.innerHTML = `
+          <div class="flex flex-wrap items-start justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <span class="grid h-12 w-12 place-items-center rounded-xl ${safe ? "bg-emerald-400/10 text-emerald-400" : "bg-red-400/10 text-red-400"}"><i class="fa-solid ${safe ? "fa-shield-heart" : "fa-triangle-exclamation"}"></i></span>
+              <div>
+                <p class="text-xs uppercase tracking-[0.18em] text-slate-500">Pincode ${NS.esc(data.pincode)}</p>
+                <h2 class="font-display text-2xl font-bold text-white">${NS.esc(data.zone)}</h2>
+              </div>
+            </div>
+            <span class="badge ${safe ? "badge-safe" : "badge-unsafe"} text-sm !px-4 !py-2">
+              <i class="fa-solid ${safe ? "fa-circle-check" : "fa-circle-xmark"}"></i> ${NS.esc(data.status)}
+            </span>
+          </div>
+
+          <div class="mt-7 grid gap-5 sm:grid-cols-2">
+            ${metric("TDS Level", data.tds, "ppm", data.tds / 1000 * 100, safe ? "Within acceptable range" : "Above recommended limit of 500 ppm")}
+            ${metric("pH Level", data.ph, "", data.ph / 14 * 100, "Ideal range 6.5 – 8.5")}
+            ${metric("Hardness", data.hardness, "mg/L", data.hardness / 600 * 100, "Moderately hard to hard water")}
+            ${metric("Turbidity", data.turbidity, "NTU", data.turbidity / 10 * 100, "Clarity of the water sample")}
+          </div>
+
+          <div class="mt-7 grid gap-4 border-t border-white/10 pt-6 sm:grid-cols-2">
+            <div>
+              <p class="text-xs uppercase tracking-[0.16em] text-slate-500">Tested On</p>
+              <p class="mt-1 text-sm text-slate-200">${NS.formatDate(data.testedOn)}</p>
+            </div>
+            <div>
+              <p class="text-xs uppercase tracking-[0.16em] text-slate-500">Laboratory</p>
+              <p class="mt-1 text-sm text-slate-200">${NS.esc(data.lab || "District Public Health Laboratory")}</p>
+            </div>
+          </div>
+
+          <div class="mt-6 rounded-2xl border ${safe ? "border-emerald-400/20 bg-emerald-400/5" : "border-red-400/20 bg-red-400/5"} p-4 text-sm ${safe ? "text-emerald-300" : "text-red-300"}">
+            <i class="fa-solid ${safe ? "fa-circle-check" : "fa-circle-exclamation"} mr-2"></i>
+            ${safe ? "This sample is within safe drinking water limits. Continue regular monitoring." : "This sample exceeds one or more safe limits. Avoid drinking untreated water and file a complaint immediately."}
+          </div>
+
+          ${safe ? "" : '<a href="report.html" class="btn btn-saffron mt-5 w-full"><i class="fa-solid fa-triangle-exclamation"></i> Report this water quality issue</a>'}
+        `;
+        source.textContent = `Data source: ${data.source === "backend" ? "Python Flask backend" : "Local demo model"} · ${NS.formatDateTime(new Date().toISOString())}`;
+        setTimeout(() => {
+          result.querySelectorAll(".bar-fill[data-width], .bar-fill").forEach((b) => {
+            const w = b.style.width;
+            b.style.width = "0";
+            requestAnimationFrame(() => { b.style.width = w; });
+          });
+        }, 30);
+      }
+
+      function runCheck(pin) {
+        NS.ui.showRipple();
+        setTimeout(async () => {
+          try {
+            const data = await NS.quality(pin);
+            render(data);
+            const hist = getHistory().filter((p) => p !== pin);
+            hist.unshift(pin);
+            localStorage.setItem(HISTORY, JSON.stringify(hist.slice(0, 6)));
+            renderRecent();
+          } catch (e) {
+            NS.toast("Could not analyse water quality. Please try again.", "error");
+          } finally {
+            NS.ui.hideRipple();
+          }
+        }, 1700);
+      }
+
+      input.addEventListener("input", () => {
+        input.value = input.value.replace(/\D/g, "").slice(0, 6);
+        NS.markField(input, NS.validate.pincode(input.value), "Enter a valid 6-digit pincode.");
+      });
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (!NS.markField(input, NS.validate.pincode(input.value), "Enter a valid 6-digit pincode.")) {
+          NS.toast("Please enter a valid 6-digit pincode.", "error");
+          return;
+        }
+        runCheck(input.value.trim());
+      });
+
+      renderRecent();
+    });
+  </script>
+</body>
+</html>

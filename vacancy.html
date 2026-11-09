@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Careers & Vacancies | Neer Safai</title>
+  <meta name="description" content="Explore current openings at Neer Safai and the Ministry of Jal Shakti. Join the mission to secure India's water future." />
+  <link rel="icon" type="image/png" href="images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { ink: "#0b1320", ink2: "#0f1b2d", aqua: "#00f0ff", saffron: "#ff9933" }, fontFamily: { sans: ["Inter", "sans-serif"], display: ["Space Grotesk", "sans-serif"] } } } };
+  </script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="antialiased">
+  <div id="navbar-placeholder"></div>
+
+  <main class="page-shell">
+    <section class="relative overflow-hidden border-b border-white/10">
+      <div class="absolute inset-0 -z-10 bg-gradient-to-b from-[#0d1e30] via-[#0b1320] to-transparent"></div>
+      <div class="container-x py-16 sm:py-20">
+        <nav class="text-xs text-slate-500"><a href="index.html" class="hover:text-[#00f0ff]">Home</a> <span class="mx-2">/</span> <span class="text-slate-300">Careers</span></nav>
+        <div class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs text-slate-300">
+          <span class="live-dot"></span> <span id="open-count">0</span> open positions
+        </div>
+        <h1 data-aos="fade-up" class="mt-5 max-w-3xl font-display text-4xl font-bold text-white sm:text-5xl">Join the mission to <span class="text-gradient">save water.</span></h1>
+        <p data-aos="fade-up" data-aos-delay="100" class="mt-5 max-w-2xl leading-relaxed text-slate-400">Work at the intersection of technology, public policy and environmental impact. Help build the digital infrastructure for India's water future.</p>
+      </div>
+    </section>
+
+    <section class="section-pad">
+      <div class="container-x">
+        <div class="glass flex flex-col gap-3 p-4 sm:p-5 md:flex-row md:items-center">
+          <div class="relative flex-1">
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
+            <input id="v-search" type="search" class="input !pl-11" placeholder="Search roles, departments, skills…" />
+          </div>
+          <select id="v-type" class="select md:max-w-[200px]">
+            <option value="">All job types</option>
+            <option>Full Time</option>
+            <option>Contract</option>
+          </select>
+          <button type="button" id="v-clear" class="btn btn-ghost !px-4"><i class="fa-solid fa-filter-circle-xmark"></i> Clear</button>
+        </div>
+
+        <div id="vacancy-list" class="mt-6 space-y-4"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Apply modal -->
+  <div id="apply-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="apply-title">
+    <div class="modal-card">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Application</p>
+          <h2 id="apply-title" class="mt-1 font-display text-xl font-bold text-white">Apply</h2>
+        </div>
+        <button type="button" id="apply-close" class="grid h-9 w-9 place-items-center rounded-xl border border-white/10 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <form id="apply-form" class="mt-5 space-y-4" novalidate>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label class="field-label" for="a-name">Full Name</label>
+            <input id="a-name" type="text" class="input" placeholder="Your name" data-error="err-a-name" />
+            <span class="field-error" id="err-a-name"></span>
+          </div>
+          <div>
+            <label class="field-label" for="a-phone">Mobile</label>
+            <input id="a-phone" type="tel" inputmode="numeric" maxlength="10" class="input" placeholder="10-digit number" data-error="err-a-phone" />
+            <span class="field-error" id="err-a-phone"></span>
+          </div>
+        </div>
+        <div>
+          <label class="field-label" for="a-email">Email</label>
+          <input id="a-email" type="email" class="input" placeholder="you@example.com" data-error="err-a-email" />
+          <span class="field-error" id="err-a-email"></span>
+        </div>
+        <div>
+          <label class="field-label" for="a-link">Portfolio / Resume link</label>
+          <input id="a-link" type="url" class="input" placeholder="https://…" />
+        </div>
+        <div>
+          <label class="field-label" for="a-note">Why are you a good fit?</label>
+          <textarea id="a-note" class="textarea !min-h-[90px]" placeholder="A short note (optional)"></textarea>
+        </div>
+        <div class="flex gap-2">
+          <button type="submit" class="btn btn-aqua flex-1"><i class="fa-solid fa-paper-plane"></i> Submit application</button>
+          <button type="button" id="apply-cancel" class="btn btn-ghost">Cancel</button>
+        </div>
+        <p class="text-center text-[11px] text-slate-500">Demo only — applications are stored locally in your browser.</p>
+      </form>
+    </div>
+  </div>
+
+  <div id="footer-placeholder"></div>
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const list = document.getElementById("vacancy-list");
+      const search = document.getElementById("v-search");
+      const typeSel = document.getElementById("v-type");
+      const count = document.getElementById("open-count");
+      const modal = document.getElementById("apply-modal");
+      const form = document.getElementById("apply-form");
+      const title = document.getElementById("apply-title");
+      const APP_KEY = "ns_applications";
+      let activeRole = null;
+
+      count.textContent = NS_DATA.vacancies.length;
+
+      function daysLeft(dateStr) {
+        const diff = Math.ceil((new Date(dateStr) - new Date()) / (1000 * 60 * 60 * 24));
+        return diff;
+      }
+
+      function render() {
+        const q = search.value.trim().toLowerCase();
+        const t = typeSel.value;
+        const items = NS_DATA.vacancies.filter((v) => {
+          const hay = `${v.role} ${v.dept} ${v.location} ${v.tags.join(" ")}`.toLowerCase();
+          return (!q || hay.includes(q)) && (!t || v.type === t);
+        });
+        if (!items.length) {
+          list.innerHTML = `<div class="glass p-12 text-center"><i class="fa-solid fa-briefcase text-2xl text-slate-600"></i><p class="mt-3 text-sm text-slate-500">No vacancies match your filters.</p></div>`;
+          return;
+        }
+        list.innerHTML = items.map((v, i) => {
+          const left = daysLeft(v.deadline);
+          const urgent = left <= 10 && left >= 0;
+          return `
+          <article class="glass tilt-card group p-6 sm:p-7" data-aos="fade-up" data-aos-delay="${i * 50}">
+            <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+              <div class="flex-1">
+                <div class="flex flex-wrap items-center gap-2">
+                  <h2 class="font-display text-xl font-semibold text-white group-hover:text-[#00f0ff] transition">${NS.esc(v.role)}</h2>
+                  <span class="badge ${v.type === "Full Time" ? "badge-resolved" : "badge-review"}">${NS.esc(v.type)}</span>
+                  ${urgent ? '<span class="badge badge-rejected">Closing soon</span>' : ""}
+                </div>
+                <div class="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-slate-400">
+                  <span><i class="fa-solid fa-location-dot mr-1 text-[#00f0ff]"></i>${NS.esc(v.location)}</span>
+                  <span><i class="fa-solid fa-building mr-1 text-[#00f0ff]"></i>${NS.esc(v.dept)}</span>
+                  <span><i class="fa-solid fa-indian-rupee-sign mr-1 text-[#00f0ff]"></i>${NS.esc(v.salary)}</span>
+                </div>
+                <div class="mt-3 flex flex-wrap gap-2">
+                  ${v.tags.map((t) => `<span class="rounded-full border border-white/10 px-2.5 py-0.5 text-[11px] text-slate-400">${NS.esc(t)}</span>`).join("")}
+                </div>
+              </div>
+              <div class="flex shrink-0 flex-col items-start gap-2 md:items-end">
+                <p class="text-xs text-slate-500">Last date: <span class="text-slate-300">${NS.formatDate(v.deadline)}</span></p>
+                <p class="text-xs ${urgent ? "text-red-300" : "text-slate-500"}">${left >= 0 ? left + " days left" : "Closed"}</p>
+                <button type="button" data-role="${NS.esc(v.role)}" data-dept="${NS.esc(v.dept)}" class="btn btn-ghost !border-[#00f0ff]/50 !px-5 !py-2 !text-[#00f0ff] hover:!bg-[#00f0ff] hover:!text-black">Apply Now</button>
+              </div>
+            </div>
+          </article>`;
+        }).join("");
+
+        list.querySelectorAll("[data-role]").forEach((b) => b.addEventListener("click", () => {
+          activeRole = { role: b.getAttribute("data-role"), dept: b.getAttribute("data-dept") };
+          title.textContent = activeRole.role;
+          modal.classList.add("active");
+          document.body.style.overflow = "hidden";
+        }));
+      }
+
+      function closeModal() {
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+        form.reset();
+        form.querySelectorAll(".is-valid, .is-invalid").forEach((el) => el.classList.remove("is-valid", "is-invalid"));
+        form.querySelectorAll(".field-error").forEach((el) => (el.textContent = ""));
+      }
+
+      const name = document.getElementById("a-name");
+      const phone = document.getElementById("a-phone");
+      const email = document.getElementById("a-email");
+      phone.addEventListener("input", () => { phone.value = phone.value.replace(/\D/g, "").slice(0, 10); });
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const ok = [
+          NS.markField(name, NS.validate.minLen(name.value, 3), "Enter your full name."),
+          NS.markField(phone, NS.validate.phone(phone.value), "Enter a valid 10-digit mobile number."),
+          NS.markField(email, NS.validate.email(email.value), "Enter a valid email address.")
+        ].every(Boolean);
+        if (!ok) {
+          NS.toast("Please fix the highlighted fields.", "error");
+          return;
+        }
+        let apps = [];
+        try { apps = JSON.parse(localStorage.getItem(APP_KEY) || "[]"); } catch (err) {}
+        apps.unshift({
+          role: activeRole.role,
+          dept: activeRole.dept,
+          name: name.value.trim(),
+          phone: phone.value.trim(),
+          email: email.value.trim(),
+          link: document.getElementById("a-link").value.trim(),
+          note: document.getElementById("a-note").value.trim(),
+          appliedAt: new Date().toISOString()
+        });
+        localStorage.setItem(APP_KEY, JSON.stringify(apps.slice(0, 100)));
+        closeModal();
+        NS.toast(`Application submitted for ${activeRole.role}.`, "success");
+      });
+
+      document.getElementById("apply-close").addEventListener("click", closeModal);
+      document.getElementById("apply-cancel").addEventListener("click", closeModal);
+      modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+
+      search.addEventListener("input", render);
+      typeSel.addEventListener("change", render);
+      document.getElementById("v-clear").addEventListener("click", () => { search.value = ""; typeSel.value = ""; render(); });
+      render();
+    });
+  </script>
+</body>
+</html>

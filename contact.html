@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact & Helpline | Neer Safai</title>
+  <meta name="description" content="Contact the Neer Safai water sanitation helpline, email support or visit the Ministry of Jal Shakti office." />
+  <link rel="icon" type="image/png" href="images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { ink: "#0b1320", ink2: "#0f1b2d", aqua: "#00f0ff", saffron: "#ff9933" }, fontFamily: { sans: ["Inter", "sans-serif"], display: ["Space Grotesk", "sans-serif"] } } } };
+  </script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="antialiased">
+  <div id="navbar-placeholder"></div>
+
+  <main class="page-shell">
+    <section class="relative overflow-hidden border-b border-white/10">
+      <div class="absolute inset-0 -z-10 bg-gradient-to-b from-[#0d1e30] via-[#0b1320] to-transparent"></div>
+      <div class="container-x py-16 sm:py-20">
+        <nav class="text-xs text-slate-500"><a href="index.html" class="hover:text-[#00f0ff]">Home</a> <span class="mx-2">/</span> <span class="text-slate-300">Contact</span></nav>
+        <h1 data-aos="fade-up" class="mt-4 max-w-3xl font-display text-4xl font-bold text-white sm:text-5xl">We are here to <span class="text-gradient">help.</span></h1>
+        <p data-aos="fade-up" data-aos-delay="100" class="mt-5 max-w-2xl leading-relaxed text-slate-400">Reach the national water helpline, email the support desk, or send us a message using the form below.</p>
+      </div>
+    </section>
+
+    <section class="section-pad">
+      <div class="container-x grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <a href="tel:1800119999" data-aos="fade-up" class="glass tilt-card p-6">
+          <span class="grid h-12 w-12 place-items-center rounded-xl bg-[#00f0ff]/10 text-xl text-[#00f0ff]"><i class="fa-solid fa-phone-volume"></i></span>
+          <h2 class="mt-5 font-display text-lg font-semibold text-white">Toll-Free Helpline</h2>
+          <p class="mt-1 text-sm text-slate-400">1800-11-9999</p>
+          <p class="mt-3 text-xs text-emerald-400"><span class="live-dot mr-1"></span> Available 24 × 7</p>
+        </a>
+        <a href="mailto:support@neersafai.gov.in" data-aos="fade-up" data-aos-delay="70" class="glass tilt-card p-6">
+          <span class="grid h-12 w-12 place-items-center rounded-xl bg-[#ff9933]/10 text-xl text-[#ff9933]"><i class="fa-solid fa-envelope-open-text"></i></span>
+          <h2 class="mt-5 font-display text-lg font-semibold text-white">Email Support</h2>
+          <p class="mt-1 text-sm text-slate-400">support@neersafai.gov.in</p>
+          <p class="mt-3 text-xs text-slate-500">Response within 48 hours</p>
+        </a>
+        <div data-aos="fade-up" data-aos-delay="140" class="glass tilt-card p-6">
+          <span class="grid h-12 w-12 place-items-center rounded-xl bg-[#00f0ff]/10 text-xl text-[#00f0ff]"><i class="fa-solid fa-location-dot"></i></span>
+          <h2 class="mt-5 font-display text-lg font-semibold text-white">Head Office</h2>
+          <p class="mt-1 text-sm text-slate-400">Shram Shakti Bhawan, Rafi Marg, New Delhi – 110001</p>
+        </div>
+        <div data-aos="fade-up" data-aos-delay="210" class="glass tilt-card p-6">
+          <span class="grid h-12 w-12 place-items-center rounded-xl bg-[#ff9933]/10 text-xl text-[#ff9933]"><i class="fa-solid fa-clock"></i></span>
+          <h2 class="mt-5 font-display text-lg font-semibold text-white">Office Hours</h2>
+          <p class="mt-1 text-sm text-slate-400">Monday – Friday<br />9:30 AM – 5:30 PM IST</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad pt-0">
+      <div class="container-x grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+        <div data-aos="fade-right" class="glass p-7 sm:p-9">
+          <h2 class="font-display text-2xl font-bold text-white">Send us a message</h2>
+          <p class="mt-2 text-sm text-slate-400">For non-emergency queries, feedback or partnership requests.</p>
+          <form id="contact-form" class="mt-7 space-y-5" novalidate>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <div>
+                <label class="field-label" for="c-name">Full Name</label>
+                <input id="c-name" name="name" type="text" class="input" placeholder="e.g. Raj Gautam" data-error="err-c-name" autocomplete="name" />
+                <span class="field-error" id="err-c-name"></span>
+              </div>
+              <div>
+                <label class="field-label" for="c-email">Email Address</label>
+                <input id="c-email" name="email" type="email" class="input" placeholder="you@example.com" data-error="err-c-email" autocomplete="email" />
+                <span class="field-error" id="err-c-email"></span>
+              </div>
+            </div>
+            <div>
+              <label class="field-label" for="c-subject">Subject</label>
+              <input id="c-subject" name="subject" type="text" class="input" placeholder="How can we help?" data-error="err-c-subject" />
+              <span class="field-error" id="err-c-subject"></span>
+            </div>
+            <div>
+              <label class="field-label" for="c-message">Message</label>
+              <textarea id="c-message" name="message" class="textarea" placeholder="Write your message here…" data-error="err-c-message"></textarea>
+              <span class="field-error" id="err-c-message"></span>
+            </div>
+            <button type="submit" class="btn btn-aqua w-full sm:w-auto"><i class="fa-solid fa-paper-plane"></i> Send message</button>
+          </form>
+        </div>
+
+        <div data-aos="fade-left" class="space-y-5">
+          <div class="glass overflow-hidden">
+            <img src="images/water-8.png" alt="Clean water reservoir" class="h-56 w-full object-cover" />
+            <div class="p-6">
+              <h3 class="font-display text-lg font-semibold text-white">Emergency contamination?</h3>
+              <p class="mt-2 text-sm text-slate-400">Do not wait for an online response. Call the helpline immediately and alert your district emergency operations centre.</p>
+              <a href="tel:1800119999" class="btn btn-saffron mt-4"><i class="fa-solid fa-phone"></i> Call 1800-11-9999</a>
+            </div>
+          </div>
+          <div class="glass p-6">
+            <h3 class="font-display text-lg font-semibold text-white">File a tracked complaint</h3>
+            <p class="mt-2 text-sm text-slate-400">For water quality, leakage or supply issues, use the official complaint system to get a trackable ID.</p>
+            <a href="report.html" class="btn btn-ghost mt-4"><i class="fa-solid fa-triangle-exclamation"></i> Report an issue</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-placeholder"></div>
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("contact-form");
+      if (!form) return;
+      const name = document.getElementById("c-name");
+      const email = document.getElementById("c-email");
+      const subject = document.getElementById("c-subject");
+      const message = document.getElementById("c-message");
+
+      [
+        [name, (v) => NS.validate.required(v), "Please enter your name."],
+        [email, (v) => NS.validate.email(v), "Enter a valid email address."],
+        [subject, (v) => NS.validate.minLen(v, 3), "Subject must be at least 3 characters."],
+        [message, (v) => NS.validate.minLen(v, 10), "Message must be at least 10 characters."]
+      ].forEach(([input, rule, msg]) => {
+        input.addEventListener("input", () => NS.markField(input, rule(input.value), msg));
+        input.addEventListener("blur", () => NS.markField(input, rule(input.value), msg));
+      });
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const ok = [
+          NS.markField(name, NS.validate.required(name.value), "Please enter your name."),
+          NS.markField(email, NS.validate.email(email.value), "Enter a valid email address."),
+          NS.markField(subject, NS.validate.minLen(subject.value, 3), "Subject must be at least 3 characters."),
+          NS.markField(message, NS.validate.minLen(message.value, 10), "Message must be at least 10 characters.")
+        ].every(Boolean);
+        if (!ok) {
+          NS.toast("Please fix the highlighted fields.", "error");
+          return;
+        }
+        NS.feedback({ type: "contact", name: name.value.trim(), email: email.value.trim(), subject: subject.value.trim(), message: message.value.trim() });
+        form.reset();
+        [name, email, subject, message].forEach((i) => i.classList.remove("is-valid", "is-invalid"));
+        NS.toast("Message sent. Our team will respond within 48 hours.", "success");
+      });
+    });
+  </script>
+</body>
+</html>

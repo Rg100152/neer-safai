@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Government Notices & Orders | Neer Safai</title>
+  <meta name="description" content="Official circulars, orders and notices issued by the water sanitation department." />
+  <link rel="icon" type="image/png" href="images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { ink: "#0b1320", ink2: "#0f1b2d", aqua: "#00f0ff", saffron: "#ff9933" }, fontFamily: { sans: ["Inter", "sans-serif"], display: ["Space Grotesk", "sans-serif"] } } } };
+  </script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="antialiased">
+  <div id="navbar-placeholder"></div>
+
+  <main class="page-shell">
+    <section class="relative overflow-hidden border-b border-white/10">
+      <div class="absolute inset-0 -z-10 bg-gradient-to-b from-[#0d1e30] via-[#0b1320] to-transparent"></div>
+      <div class="container-x py-16 sm:py-20">
+        <nav class="text-xs text-slate-500"><a href="index.html" class="hover:text-[#00f0ff]">Home</a> <span class="mx-2">/</span> <span class="text-slate-300">Notices</span></nav>
+        <h1 data-aos="fade-up" class="mt-4 max-w-3xl font-display text-4xl font-bold text-white sm:text-5xl">Official notices & <span class="text-gradient">circulars.</span></h1>
+        <p data-aos="fade-up" data-aos-delay="100" class="mt-5 max-w-2xl leading-relaxed text-slate-400">Stay updated with the latest orders, guidelines and tenders issued by the department.</p>
+      </div>
+    </section>
+
+    <section class="section-pad">
+      <div class="container-x">
+        <div class="glass flex flex-wrap items-center gap-3 p-4">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Filter</span>
+          <div id="category-chips" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <div id="notices-list" class="mt-6 space-y-4"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-placeholder"></div>
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const list = document.getElementById("notices-list");
+      const chips = document.getElementById("category-chips");
+      const categories = ["All", ...Array.from(new Set(NS_DATA.notices.map((n) => n.category)))];
+      let active = "All";
+
+      function priorityBadge(p) {
+        const cls = p === "High" ? "badge-rejected" : p === "Medium" ? "badge-pending" : "badge-review";
+        return `<span class="badge ${cls}">${NS.esc(p)} priority</span>`;
+      }
+
+      function renderChips() {
+        chips.innerHTML = categories.map((c) => `
+          <button type="button" data-cat="${NS.esc(c)}" class="rounded-full border px-3 py-1 text-xs font-medium transition ${c === active ? "border-[#00f0ff] bg-[#00f0ff]/10 text-[#00f0ff]" : "border-white/10 text-slate-400 hover:border-white/30 hover:text-white"}">${NS.esc(c)}</button>`).join("");
+        chips.querySelectorAll("[data-cat]").forEach((b) => b.addEventListener("click", () => {
+          active = b.getAttribute("data-cat");
+          renderChips();
+          render();
+        }));
+      }
+
+      function render() {
+        const items = NS_DATA.notices.filter((n) => active === "All" || n.category === active);
+        if (!items.length) {
+          list.innerHTML = `<div class="glass p-12 text-center text-sm text-slate-500">No notices in this category.</div>`;
+          return;
+        }
+        list.innerHTML = items.map((n, i) => `
+          <article class="glass tilt-card p-6 sm:p-7" data-aos="fade-up" data-aos-delay="${i * 50}">
+            <div class="flex flex-wrap items-start justify-between gap-3">
+              <div class="flex items-start gap-4">
+                <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#00f0ff]/10 text-[#00f0ff]"><i class="fa-solid fa-file-lines"></i></span>
+                <div>
+                  <p class="text-[11px] font-mono uppercase tracking-wider text-slate-500">${NS.esc(n.id)}</p>
+                  <h2 class="mt-1 font-display text-lg font-semibold text-white">${NS.esc(n.title)}</h2>
+                  <p class="mt-1 text-xs text-slate-500"><i class="fa-regular fa-calendar mr-1"></i>${NS.formatDate(n.date)} · ${NS.esc(n.category)}</p>
+                </div>
+              </div>
+              ${priorityBadge(n.priority)}
+            </div>
+            <p class="mt-4 text-sm leading-relaxed text-slate-400">${NS.esc(n.body)}</p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <button type="button" data-download="${NS.esc(n.id)}" class="btn btn-ghost !px-4 !py-2 !text-xs"><i class="fa-solid fa-file-pdf"></i> Download PDF</button>
+              <a href="contact.html" class="btn btn-ghost !px-4 !py-2 !text-xs"><i class="fa-solid fa-circle-question"></i> Seek clarification</a>
+            </div>
+          </article>`).join("");
+
+        list.querySelectorAll("[data-download]").forEach((b) => b.addEventListener("click", () => {
+          NS.toast(`Demo only — ${b.getAttribute("data-download")} PDF is not bundled in this build.`, "info");
+        }));
+      }
+
+      renderChips();
+      render();
+    });
+  </script>
+</body>
+</html>

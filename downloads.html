@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Downloads & Forms | Neer Safai</title>
+  <meta name="description" content="Download official complaint forms, water testing request forms and citizen guides." />
+  <link rel="icon" type="image/png" href="images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { ink: "#0b1320", ink2: "#0f1b2d", aqua: "#00f0ff", saffron: "#ff9933" }, fontFamily: { sans: ["Inter", "sans-serif"], display: ["Space Grotesk", "sans-serif"] } } } };
+  </script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="antialiased">
+  <div id="navbar-placeholder"></div>
+
+  <main class="page-shell">
+    <section class="relative overflow-hidden border-b border-white/10">
+      <div class="absolute inset-0 -z-10 bg-gradient-to-b from-[#0d1e30] via-[#0b1320] to-transparent"></div>
+      <div class="container-x py-16 sm:py-20">
+        <nav class="text-xs text-slate-500"><a href="index.html" class="hover:text-[#00f0ff]">Home</a> <span class="mx-2">/</span> <span class="text-slate-300">Downloads</span></nav>
+        <h1 data-aos="fade-up" class="mt-4 max-w-3xl font-display text-4xl font-bold text-white sm:text-5xl">Forms & <span class="text-gradient">downloads.</span></h1>
+        <p data-aos="fade-up" data-aos-delay="100" class="mt-5 max-w-2xl leading-relaxed text-slate-400">Printable and offline-ready forms for citizens who prefer paper-based submission at their local office.</p>
+      </div>
+    </section>
+
+    <section class="section-pad">
+      <div class="container-x">
+        <div class="glass mb-6 flex items-start gap-3 p-4 text-sm text-slate-400">
+          <i class="fa-solid fa-circle-info mt-0.5 text-[#00f0ff]"></i>
+          <p>These PDFs are placeholders in this academic build. Use the online services for instant, trackable submission.</p>
+        </div>
+        <div id="downloads-grid" class="grid gap-5 md:grid-cols-2 lg:grid-cols-3"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-placeholder"></div>
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const files = [
+        { name: "Water Complaint Form", desc: "Offline form to register a water quality or supply grievance.", icon: "fa-file-circle-exclamation", size: "180 KB", type: "PDF" },
+        { name: "Water Testing Request", desc: "Request a laboratory test for TDS, pH and hardness.", icon: "fa-flask-vial", size: "120 KB", type: "PDF" },
+        { name: "RTI Application Format", desc: "Standard format to seek information under the RTI Act, 2005.", icon: "fa-file-shield", size: "96 KB", type: "PDF" },
+        { name: "Scheme Application Guide", desc: "Step-by-step guide for Jal Jeevan and Swachh Bharat benefits.", icon: "fa-book-open", size: "640 KB", type: "PDF" },
+        { name: "Citizen Feedback Form", desc: "Printable feedback form for office walk-ins.", icon: "fa-comment-dots", size: "72 KB", type: "PDF" },
+        { name: "Water Conservation Handbook", desc: "Household water saving tips and rainwater harvesting guide.", icon: "fa-seedling", size: "1.2 MB", type: "PDF" }
+      ];
+      const wrap = document.getElementById("downloads-grid");
+      wrap.innerHTML = files.map((f, i) => `
+        <article class="glass tilt-card p-6" data-aos="fade-up" data-aos-delay="${i * 50}">
+          <div class="flex items-start justify-between">
+            <span class="grid h-12 w-12 place-items-center rounded-xl bg-[#00f0ff]/10 text-xl text-[#00f0ff]"><i class="fa-solid ${f.icon}"></i></span>
+            <span class="badge badge-review">${f.type}</span>
+          </div>
+          <h2 class="mt-5 font-display text-lg font-semibold text-white">${NS.esc(f.name)}</h2>
+          <p class="mt-2 text-sm leading-relaxed text-slate-400">${NS.esc(f.desc)}</p>
+          <p class="mt-3 text-xs text-slate-500">${f.size} · English / हिन्दी</p>
+          <button type="button" data-file="${NS.esc(f.name)}" class="btn btn-ghost mt-5 w-full !text-xs"><i class="fa-solid fa-file-arrow-down"></i> Download</button>
+        </article>`).join("");
+
+      wrap.querySelectorAll("[data-file]").forEach((b) => b.addEventListener("click", () => {
+        NS.toast(`Demo only — "${b.getAttribute("data-file")}" PDF is not bundled in this build.`, "info");
+      }));
+    });
+  </script>
+</body>
+</html>

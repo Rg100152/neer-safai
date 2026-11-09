@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frequently Asked Questions | Neer Safai</title>
+  <meta name="description" content="Answers to common questions about filing complaints, tracking status and understanding water quality on Neer Safai." />
+  <link rel="icon" type="image/png" href="images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { ink: "#0b1320", ink2: "#0f1b2d", aqua: "#00f0ff", saffron: "#ff9933" }, fontFamily: { sans: ["Inter", "sans-serif"], display: ["Space Grotesk", "sans-serif"] } } } };
+  </script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="antialiased">
+  <div id="navbar-placeholder"></div>
+
+  <main class="page-shell">
+    <section class="relative overflow-hidden border-b border-white/10">
+      <div class="absolute inset-0 -z-10 bg-gradient-to-b from-[#0d1e30] via-[#0b1320] to-transparent"></div>
+      <div class="container-x py-16 sm:py-20">
+        <nav class="text-xs text-slate-500"><a href="index.html" class="hover:text-[#00f0ff]">Home</a> <span class="mx-2">/</span> <span class="text-slate-300">FAQ</span></nav>
+        <h1 data-aos="fade-up" class="mt-4 max-w-3xl font-display text-4xl font-bold text-white sm:text-5xl">Questions? <span class="text-gradient">Answered.</span></h1>
+        <p data-aos="fade-up" data-aos-delay="100" class="mt-5 max-w-2xl leading-relaxed text-slate-400">Everything you need to know about water testing, complaints and the resolution process.</p>
+      </div>
+    </section>
+
+    <section class="section-pad">
+      <div class="container-x grid gap-8 lg:grid-cols-[0.9fr_1.4fr]">
+        <aside data-aos="fade-right" class="lg:sticky lg:top-28 lg:self-start">
+          <div class="glass p-6">
+            <label class="field-label" for="faq-search">Search answers</label>
+            <div class="relative">
+              <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
+              <input id="faq-search" type="search" class="input !pl-11" placeholder="Type a keyword…" />
+            </div>
+            <p class="mt-4 text-xs text-slate-500"><span id="faq-count">0</span> answers available</p>
+          </div>
+          <div class="glass mt-5 p-6">
+            <h2 class="font-display text-lg font-semibold text-white">Still need help?</h2>
+            <p class="mt-2 text-sm text-slate-400">Our support desk responds within 48 hours, or call the toll-free helpline.</p>
+            <a href="contact.html" class="btn btn-aqua mt-4 w-full"><i class="fa-solid fa-headset"></i> Contact support</a>
+          </div>
+        </aside>
+
+        <div data-aos="fade-left" class="glass p-6 sm:p-8">
+          <div id="faq-list" data-accordion></div>
+          <p id="faq-empty" class="hidden py-10 text-center text-sm text-slate-500">No answers matched your search. Try another keyword.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-placeholder"></div>
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const list = document.getElementById("faq-list");
+      const search = document.getElementById("faq-search");
+      const count = document.getElementById("faq-count");
+      const empty = document.getElementById("faq-empty");
+
+      function render(query) {
+        const q = (query || "").toLowerCase().trim();
+        const items = NS_DATA.faqs.filter((f) => !q || (f.q + " " + f.a).toLowerCase().includes(q));
+        count.textContent = items.length;
+        empty.classList.toggle("hidden", items.length > 0);
+        list.innerHTML = items.map((f) => `
+          <div class="acc-item">
+            <button type="button" class="acc-btn">
+              <span>${NS.esc(f.q)}</span>
+              <i class="fa-solid fa-plus acc-icon"></i>
+            </button>
+            <div class="acc-panel"><div class="acc-panel-inner">${NS.esc(f.a)}</div></div>
+          </div>`).join("");
+        NS.ui.initAccordions();
+        if (items.length) {
+          const first = list.querySelector(".acc-item");
+          first.classList.add("open");
+          const panel = first.querySelector(".acc-panel");
+          panel.style.maxHeight = panel.scrollHeight + "px";
+        }
+      }
+
+      render("");
+      search.addEventListener("input", () => render(search.value));
+    });
+  </script>
+</body>
+</html>

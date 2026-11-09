@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analytics | Neer Safai</title>
+  <meta name="description" content="State-wise and category-wise analytics of water sanitation complaints across India." />
+  <link rel="icon" type="image/png" href="images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { ink: "#0b1320", ink2: "#0f1b2d", aqua: "#00f0ff", saffron: "#ff9933" }, fontFamily: { sans: ["Inter", "sans-serif"], display: ["Space Grotesk", "sans-serif"] } } } };
+  </script>
+  <link rel="stylesheet" href="css/style.css" />
+  <script>
+    try { if (!localStorage.getItem("ns_session")) location.replace("login.html?next=analytics.html"); } catch (e) {}
+  </script>
+</head>
+<body class="antialiased">
+  <div id="navbar-placeholder"></div>
+
+  <main class="page-shell">
+    <section class="border-b border-white/10 bg-gradient-to-b from-[#0d1e30] to-transparent">
+      <div class="container-x py-10 sm:py-12">
+        <nav class="text-xs text-slate-500"><a href="index.html" class="hover:text-[#00f0ff]">Home</a> <span class="mx-2">/</span> <span class="text-slate-300">Analytics</span></nav>
+        <div class="mt-4 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#00f0ff]"><span class="live-dot"></span> Data Intelligence</div>
+            <h1 class="mt-2 font-display text-3xl font-bold text-white sm:text-4xl">Grievance Analytics</h1>
+            <p class="mt-2 text-sm text-slate-400">State-wise, status-wise and category-wise insights into water sanitation complaints.</p>
+          </div>
+          <span id="source-badge" class="badge badge-review"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading…</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad !pt-8">
+      <div class="container-x space-y-6">
+        <!-- KPIs -->
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div class="glass p-5"><div class="flex items-center justify-between"><p class="text-xs uppercase tracking-wider text-slate-500">Total complaints</p><i class="fa-solid fa-inbox text-[#00f0ff]"></i></div><p class="mt-2 font-display text-3xl font-bold text-white" id="kpi-total">—</p><p class="mt-1 text-xs text-slate-500">Across all states</p></div>
+          <div class="glass p-5"><div class="flex items-center justify-between"><p class="text-xs uppercase tracking-wider text-slate-500">Resolved</p><i class="fa-solid fa-circle-check text-emerald-400"></i></div><p class="mt-2 font-display text-3xl font-bold text-emerald-400" id="kpi-resolved">—</p><p class="mt-1 text-xs text-slate-500">Closed successfully</p></div>
+          <div class="glass p-5"><div class="flex items-center justify-between"><p class="text-xs uppercase tracking-wider text-slate-500">Resolution rate</p><i class="fa-solid fa-percent text-[#ff9933]"></i></div><p class="mt-2 font-display text-3xl font-bold text-white" id="kpi-rate">—</p><p class="mt-1 text-xs text-slate-500">Resolved ÷ total</p></div>
+          <div class="glass p-5"><div class="flex items-center justify-between"><p class="text-xs uppercase tracking-wider text-slate-500">Avg. resolution</p><i class="fa-solid fa-clock text-[#00f0ff]"></i></div><p class="mt-2 font-display text-3xl font-bold text-white" id="kpi-days">—</p><p class="mt-1 text-xs text-slate-500">Days to close</p></div>
+        </div>
+
+        <div class="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
+          <!-- State bars -->
+          <div class="glass p-6 sm:p-8">
+            <div class="flex items-center justify-between">
+              <h2 class="font-display text-xl font-semibold text-white">State-wise complaints</h2>
+              <span class="text-xs text-slate-500">Top 8</span>
+            </div>
+            <div id="state-bars" class="mt-6 space-y-4"></div>
+          </div>
+
+          <!-- Status donut -->
+          <div class="glass p-6 sm:p-8">
+            <h2 class="font-display text-xl font-semibold text-white">Status distribution</h2>
+            <div class="mt-6 flex flex-col items-center gap-6">
+              <div id="donut" class="grid h-44 w-44 place-items-center rounded-full" style="background: conic-gradient(#334155 0 100%);">
+                <div class="grid h-28 w-28 place-items-center rounded-full bg-[#0b1320] text-center">
+                  <div><p class="font-display text-2xl font-bold text-white" id="donut-total">0</p><p class="text-[10px] uppercase tracking-wider text-slate-500">Total</p></div>
+                </div>
+              </div>
+              <div id="donut-legend" class="w-full space-y-2"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid gap-6 lg:grid-cols-2">
+          <!-- Issue breakdown -->
+          <div class="glass p-6 sm:p-8">
+            <h2 class="font-display text-xl font-semibold text-white">Issue category breakdown</h2>
+            <div id="issue-bars" class="mt-6 space-y-4"></div>
+          </div>
+
+          <!-- Monthly trend -->
+          <div class="glass p-6 sm:p-8">
+            <div class="flex items-center justify-between">
+              <h2 class="font-display text-xl font-semibold text-white">Monthly volume</h2>
+              <span class="text-xs text-slate-500">Last 6 months</span>
+            </div>
+            <div id="month-bars" class="mt-8 flex h-56 items-end justify-between gap-3"></div>
+            <p class="mt-4 text-xs text-slate-500"><i class="fa-solid fa-circle-info mr-1"></i> Trend is illustrative and combines demo baselines with live portal data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-placeholder"></div>
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async function () {
+      if (!NS.auth.requireAuth()) return;
+
+      const sourceBadge = document.getElementById("source-badge");
+      await NS.initBackend();
+      const res = await NS.complaints.all();
+      const all = res.list;
+
+      if (res.source === "backend") {
+        sourceBadge.className = "badge badge-resolved";
+        sourceBadge.innerHTML = '<i class="fa-solid fa-plug-circle-check"></i> Flask backend';
+      } else {
+        sourceBadge.className = "badge badge-review";
+        sourceBadge.innerHTML = '<i class="fa-solid fa-database"></i> Demo · localStorage';
+      }
+
+      const total = all.length;
+      const resolved = all.filter((c) => c.status === "Resolved").length;
+      const rate = total ? Math.round((resolved / total) * 100) : 0;
+      document.getElementById("kpi-total").textContent = total.toLocaleString("en-IN");
+      document.getElementById("kpi-resolved").textContent = resolved.toLocaleString("en-IN");
+      document.getElementById("kpi-rate").textContent = rate + "%";
+      document.getElementById("kpi-days").textContent = total ? "6.4" : "—";
+
+      // State-wise: blend baseline coverage with live complaints
+      const stateMap = new Map();
+      NS_DATA.coverage.forEach((c) => stateMap.set(c.state, { state: c.state, count: c.complaints }));
+      all.forEach((c) => {
+        const cur = stateMap.get(c.state) || { state: c.state, count: 0 };
+        cur.count += 1;
+        stateMap.set(c.state, cur);
+      });
+      const states = Array.from(stateMap.values()).sort((a, b) => b.count - a.count).slice(0, 8);
+      const maxState = Math.max(...states.map((s) => s.count), 1);
+      document.getElementById("state-bars").innerHTML = states.map((s) => `
+        <div>
+          <div class="flex items-center justify-between text-sm">
+            <span class="text-slate-300">${NS.esc(s.state)}</span>
+            <span class="font-medium text-white">${s.count.toLocaleString("en-IN")}</span>
+          </div>
+          <div class="bar-track mt-2"><div class="bar-fill" style="width:0" data-w="${Math.round(s.count / maxState * 100)}"></div></div>
+        </div>`).join("");
+
+      // Status donut
+      const statusOrder = ["Resolved", "Under Review", "Pending", "Rejected"];
+      const statusColors = { "Resolved": "#34d399", "Under Review": "#38bdf8", "Pending": "#fbbf24", "Rejected": "#f87171" };
+      const statusCounts = {};
+      all.forEach((c) => { statusCounts[c.status] = (statusCounts[c.status] || 0) + 1; });
+      let acc = 0;
+      const stops = statusOrder.map((s) => {
+        const val = statusCounts[s] || 0;
+        const start = total ? (acc / total) * 100 : 0;
+        acc += val;
+        const end = total ? (acc / total) * 100 : 0;
+        return `${statusColors[s]} ${start}% ${end}%`;
+      });
+      const donut = document.getElementById("donut");
+      donut.style.background = total ? `conic-gradient(${stops.join(", ")})` : "conic-gradient(#334155 0 100%)";
+      document.getElementById("donut-total").textContent = total;
+      document.getElementById("donut-legend").innerHTML = statusOrder.map((s) => `
+        <div class="flex items-center justify-between text-sm">
+          <span class="flex items-center gap-2 text-slate-300"><span class="h-2.5 w-2.5 rounded-full" style="background:${statusColors[s]}"></span>${s}</span>
+          <span class="text-slate-400">${statusCounts[s] || 0}</span>
+        </div>`).join("");
+
+      // Issue breakdown
+      const issueMap = new Map();
+      NS_DATA.issueTypes.forEach((t) => issueMap.set(t, 0));
+      all.forEach((c) => issueMap.set(c.issueType, (issueMap.get(c.issueType) || 0) + 1));
+      const issues = Array.from(issueMap.entries()).map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count).slice(0, 6);
+      const maxIssue = Math.max(...issues.map((i) => i.count), 1);
+      document.getElementById("issue-bars").innerHTML = issues.map((i) => `
+        <div>
+          <div class="flex items-center justify-between text-sm">
+            <span class="truncate pr-3 text-slate-300">${NS.esc(i.name)}</span>
+            <span class="font-medium text-white">${i.count}</span>
+          </div>
+          <div class="bar-track mt-2"><div class="bar-fill" style="width:0" data-w="${Math.round(i.count / maxIssue * 100)}"></div></div>
+        </div>`).join("");
+
+      // Monthly trend (illustrative baseline + live count in current month)
+      const months = [];
+      const now = new Date();
+      for (let i = 5; i >= 0; i--) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        months.push({ label: d.toLocaleDateString("en-IN", { month: "short" }), base: 380 + ((i * 53) % 210), live: 0 });
+      }
+      all.forEach((c) => {
+        const d = new Date(c.createdAt);
+        const idx = months.findIndex((m, i) => {
+          const md = new Date(now.getFullYear(), now.getMonth() - (5 - i), 1);
+          return d.getMonth() === md.getMonth() && d.getFullYear() === md.getFullYear();
+        });
+        if (idx >= 0) months[idx].live += 1;
+      });
+      const maxMonth = Math.max(...months.map((m) => m.base + m.live), 1);
+      document.getElementById("month-bars").innerHTML = months.map((m) => {
+        const h = Math.round(((m.base + m.live) / maxMonth) * 100);
+        return `
+          <div class="flex flex-1 flex-col items-center gap-2">
+            <span class="text-[11px] text-slate-400">${m.base + m.live}</span>
+            <div class="flex w-full items-end justify-center" style="height:170px">
+              <div class="w-8 rounded-t-lg bg-gradient-to-t from-[#0891b2] to-[#00f0ff] shadow-[0_0_18px_rgba(0,240,255,0.35)] transition-all duration-700" style="height:0" data-h="${h}"></div>
+            </div>
+            <span class="text-xs text-slate-500">${m.label}</span>
+          </div>`;
+      }).join("");
+
+      // Animate bars
+      setTimeout(() => {
+        document.querySelectorAll(".bar-fill[data-w]").forEach((b) => { b.style.width = b.getAttribute("data-w") + "%"; });
+        document.querySelectorAll("#month-bars [data-h]").forEach((b) => { b.style.height = b.getAttribute("data-h") + "%"; });
+      }, 120);
+    });
+  </script>
+</body>
+</html>

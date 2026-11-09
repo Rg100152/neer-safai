@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found | Neer Safai</title>
+  <meta name="description" content="The page you are looking for could not be found on Neer Safai." />
+  <link rel="icon" type="image/png" href="images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { ink: "#0b1320", ink2: "#0f1b2d", aqua: "#00f0ff", saffron: "#ff9933" }, fontFamily: { sans: ["Inter", "sans-serif"], display: ["Space Grotesk", "sans-serif"] } } } };
+  </script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="antialiased">
+  <div id="navbar-placeholder"></div>
+
+  <main class="page-shell">
+    <section class="relative flex min-h-[72vh] items-center overflow-hidden">
+      <div class="absolute inset-0 -z-10 bg-gradient-to-b from-[#0d1e30] via-[#0b1320] to-[#0b1320]"></div>
+      <div class="absolute left-1/2 top-1/2 -z-10 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#00f0ff]/10 blur-3xl"></div>
+      <div class="container-x py-20 text-center">
+        <div data-aos="zoom-in" class="mx-auto grid h-20 w-20 place-items-center rounded-full border border-[#00f0ff]/30 bg-[#00f0ff]/10 text-3xl text-[#00f0ff] shadow-[0_0_40px_rgba(0,240,255,0.35)]">
+          <i class="fa-solid fa-droplet-slash"></i>
+        </div>
+        <p data-aos="fade-up" class="mt-8 font-display text-[92px] font-bold leading-none text-gradient sm:text-[140px]">404</p>
+        <h1 data-aos="fade-up" data-aos-delay="80" class="mt-2 font-display text-2xl font-bold text-white sm:text-3xl">This stream has run dry.</h1>
+        <p data-aos="fade-up" data-aos-delay="140" class="mx-auto mt-3 max-w-md text-sm leading-relaxed text-slate-400">The page you are looking for may have moved, been renamed, or never existed. Let us guide you back to clean waters.</p>
+
+        <div data-aos="fade-up" data-aos-delay="200" class="mt-8 flex flex-wrap justify-center gap-3">
+          <a href="index.html" class="btn btn-aqua"><i class="fa-solid fa-house"></i> Back to Home</a>
+          <a href="report.html" class="btn btn-ghost"><i class="fa-solid fa-triangle-exclamation"></i> Report an Issue</a>
+          <a href="track.html" class="btn btn-ghost"><i class="fa-solid fa-magnifying-glass-location"></i> Track Complaint</a>
+        </div>
+
+        <div data-aos="fade-up" data-aos-delay="260" class="mx-auto mt-12 grid max-w-2xl gap-3 sm:grid-cols-3">
+          <a href="quality.html" class="glass p-4 text-sm text-slate-300 hover:border-[#00f0ff]/50 hover:text-white transition"><i class="fa-solid fa-flask-vial mb-2 block text-[#00f0ff]"></i>Water Quality</a>
+          <a href="schemes.html" class="glass p-4 text-sm text-slate-300 hover:border-[#00f0ff]/50 hover:text-white transition"><i class="fa-solid fa-layer-group mb-2 block text-[#00f0ff]"></i>Schemes</a>
+          <a href="contact.html" class="glass p-4 text-sm text-slate-300 hover:border-[#00f0ff]/50 hover:text-white transition"><i class="fa-solid fa-headset mb-2 block text-[#00f0ff]"></i>Contact Us</a>
+        </div>
+
+        <p class="mt-10 text-xs text-slate-600">Error code: 404 · Page not found</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-placeholder"></div>
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
